@@ -11,7 +11,7 @@ import GithubMarkdown from 'github-markdown-css'
 const Item = ({ entity: { char, keywords } }) => {
   const [ firstKeyword ] = keywords
   return (
-    <div>
+    <div style={{lineHeight: '14px', margin: 0, padding: 12, fontSize: 14, fontWeight: 'bold'}}>
       <span style={{ padding: 5 }}>{char}</span>
       <span style={{ padding: 5 }}>{firstKeyword}</span>
     </div>
@@ -41,10 +41,11 @@ class MarkdownEditor extends React.Component {
     const {
       classes,
       preview,
+      previewClass,
     } = this.props
 
     return (
-      <div style={{ width: 400, textAlign: 'left' }}>
+      <div className={styles.wrapper}>
         <div>
           <div className={classes.header}>
             <nav>
@@ -62,44 +63,44 @@ class MarkdownEditor extends React.Component {
               </button>
             </nav>
           </div>
-          {preview
-            ?
-            <div>
-              <article
-                className={GithubMarkdown[ 'markdown-body' ]}
-                dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.value) }}></article>
-            </div>
-            :
-            <div>
-              <ReactTextareaAutocomplete
-                loadingComponent={Loading}
-                style={{
-                  width: '100%',
-                  minHeight: 200,
-                  resize: 'none',
-                  padding: 8,
-                  border: 1,
-                  lineHeight: '22.4px',
-                  fontSize: 14,
-                }}
-                placeholder={'Write some markdown'}
-                value={this.state.value}
-                onChange={({ target: { value } }) => this.setState({ value })}
-                trigger={{
-                  ":": {
-                    dataProvider: token => {
-                      return emoji(token)
-                        .slice(0, 10)
-                        .map(({ name, char, keywords }) => ({ name, char, keywords }))
-                    },
-                    component: Item,
-                    // TODO - after new version of RTA is deployed, caretPosition: next will be a default and
-                    // we can just return a string
-                    output: (item, trigger) => ({ text: item.char, caretPosition: 'next' }),
-                  }
-                }}
-              />
-            </div>}
+          <div className={classes.content}>
+            {preview
+              ?
+              <div
+                className={classes.previewWrapper}
+              >
+                {!this.state.value.trim()
+                  ?
+                  <article>Nothing to preview</article>
+                  :
+                  <article
+                    className={previewClass}
+                    dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.value) }}></article>
+                }
+              </div>
+              :
+                <ReactTextareaAutocomplete
+                  loadingComponent={Loading}
+                  className={styles.textarea}
+                  placeholder={'Write some markdown'}
+                  value={this.state.value}
+                  onChange={({ target: { value } }) => this.setState({ value })}
+                  trigger={{
+                    ":": {
+                      dataProvider: token => {
+                        return emoji(token)
+                          .slice(0, 10)
+                          .map(({ name, char, keywords }) => ({ name, char, keywords }))
+                      },
+                      component: Item,
+                      // TODO - after new version of RTA is deployed, caretPosition: next will be a default and
+                      // we can just return a string
+                      output: (item, trigger) => ({ text: item.char, caretPosition: 'next' }),
+                    }
+                  }}
+                />
+              }
+          </div>
 
         </div>
       </div>
@@ -110,6 +111,7 @@ class MarkdownEditor extends React.Component {
 MarkdownEditor.defaultProps = {
   classes: styles,
   preview: false,
+  previewClass: GithubMarkdown[ 'markdown-body' ],
 }
 
 export default MarkdownEditor
