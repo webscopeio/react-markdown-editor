@@ -17,7 +17,14 @@
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@webscopeio/react-textarea-autocomplete": "2.1.1",
+    "classnames": "2.2.5",
+    "emojilib": "2.2.12",
+    "github-markdown-css": "2.10.0",
+    "match-sorter": "2.2.3",
+    "showdown": "1.8.6"
+  },
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",

@@ -1,0 +1,21 @@
+.navButton {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #586069;
+  text-decoration: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-bottom: 0;
+}
+
+.navButton.selected {
+  background: white;
+}
+
+.header {
+  padding: 6px 10px 0;
+  background: #f6f8fa;
+  border-radius: 3px 3px 0 0;
+}

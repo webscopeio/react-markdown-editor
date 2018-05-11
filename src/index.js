@@ -1,26 +1,21 @@
-/**
- * @class ExampleComponent
- */
+import * as React from 'react'
+import BaseMarkdownEditor from './BaseMarkdownEditor'
 
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+export default class MarkdownEditor extends React.Component {
+  state = {
+    preview: false,
+  }
 
-import styles from './styles.css'
-
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
+  onSetPreview = (preview) => {
+    this.setState({ preview })
   }
 
   render() {
-    const {
-      text
-    } = this.props
-
     return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
+      <BaseMarkdownEditor
+        preview={this.state.preview}
+        onSetPreview={this.onSetPreview}
+      />
     )
   }
 }
