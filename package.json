@@ -1,5 +1,5 @@
 {
-  "name": "react-markdown-editor",
+  "name": "@webscopeio/react-markdown-editor",
   "version": "1.0.0",
   "description": "Markdown editor with Github-like autocomplete",
   "author": "Webscope.io",
@@ -21,6 +21,9 @@
     "flow": "flow",
     "flow:check": "flow check",
     "flow:watch": "flow-watch"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@webscopeio/react-textarea-autocomplete": "2.1.1",
