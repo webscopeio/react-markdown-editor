@@ -14,7 +14,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/repo
+    working_directory: ~/react-markdown-editor
 
     steps:
       - checkout
@@ -33,7 +33,18 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
-      - run: yarn test
+  test:
+      - run:
+        - name Run tests
+        - command yarn test
+      - run:
+        - name Run flow
+        - command yarn flow
 
-
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - flow
+      - tests
