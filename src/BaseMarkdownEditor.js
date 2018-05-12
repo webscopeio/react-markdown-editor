@@ -14,7 +14,7 @@ import Toolbar from './Toolbar'
 const Loading = () => <div>Loading</div>
 
 type MarkdownEditorProps = {
-  placeholder?: string,
+  placeholder: ?string,
   value: string,
   noPreviewMessage?: string,
   onChange: any,
