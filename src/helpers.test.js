@@ -37,7 +37,7 @@ describe('Markdown replace functions', () => {
     expect(insertSymbol(text, 14, ['_', '_'])).toEqual(['Hello _Webscope_', true])
   })
 
-  it('multiline comment', () => {
+  it('multiline comment - cursor is in an empty line', () => {
     const text =
       `This is a multiline
 comment
@@ -50,8 +50,43 @@ comment
 WOW`, true])
   })
 
+  it('multiline comment - cursor is at the word', () => {
+    const text =
+      `This is a multiline
+comment
+
+WOW`
+
+    expect(insertSymbol(text, 30, ['_', '_'])).toEqual([`This is a multiline
+comment
+
+_WOW_`, true])
+  })
+
   it('word is already wrapped, insertSymbol is invoked with this symbol, symbol is removed', () => {
     const text = '**Hello** world'
     expect(insertSymbol(text, 1, ['**', '**'])).toEqual(['Hello world', false])
+  })
+
+  it('empty string is wrapped with a **** symbol, insertSymbol is invoked with the symbol, **** disappear', () => {
+    const text = `**A**
+
+****
+
+AHOJ **B**`
+    expect(insertSymbol(text, 9, ['**', '**'])).toEqual([`**A**
+
+
+
+AHOJ **B**`, false])
+  })
+
+  it('there are multiple lines, word in a middle of those lines should be wrapped if cursor is at that word', () => {
+    const text = `first
+hello world 
+last`
+    expect(insertSymbol(text, 9, ['**', '**'])).toEqual([`first
+**hello** world 
+last`, true])
   })
 })
