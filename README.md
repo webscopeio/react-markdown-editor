@@ -6,10 +6,16 @@
 
 ![alt text](https://raw.githubusercontent.com/webscopeio/react-markdown-editor/master/static/demo.gif)
 
+## Warning
+This is a work in progress. It's not well tested yet, please do not use this in production yet.
+
+## Demo
+https://webscope-react-markdown-editor.firebaseapp.com/
+
 ## Install
 
 ```bash
-npm install --save @webscopeio/react-markdown-editor
+yarn add @webscopeio/react-markdown-editor
 ```
 
 ## Usage
