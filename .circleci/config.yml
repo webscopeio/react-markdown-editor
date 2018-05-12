@@ -52,5 +52,5 @@ workflows:
     jobs:
       - build
       - tests:
-        requires:
-          - lint
+          requires:
+            - lint
