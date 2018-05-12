@@ -1,23 +1,21 @@
 // @flow
 
-const isEmptyAtPosition = (word: string, position: number) => {
-  return word[ position ] === ' ' || word [ position ] === '\n'
-}
+const isEmptyAtPosition = (word: string, position: number) => word[position] === ' ' || word[position] === '\n'
 
 export const getWordStartAndEndLocation = (word: string, position: number) => {
   if (isEmptyAtPosition(word, position) && isEmptyAtPosition(word, position - 1)) {
-    return [ position, position ]
+    return [position, position]
   }
 
   const firstPartOfWord = word.substr(0, position)
   const lastPartOfWord = word.substr(position)
 
-  const start = firstPartOfWord.lastIndexOf(' ')  + 1
+  const start = firstPartOfWord.lastIndexOf(' ') + 1
   const end = lastPartOfWord.indexOf(' ')
 
   return [
     start !== -1 ? start : 0,
-    position + (end !== -1 ? end : word.length)
+    position + (end !== -1 ? end : word.length),
   ]
 }
 
@@ -27,7 +25,7 @@ export const insertSymbol = (word: string, position: number, [prefix, suffix]: A
   const actualWord = word.slice(start, end)
   const endWord = word.slice(end, word.length)
 
-  if(actualWord.startsWith(prefix) && actualWord.endsWith(suffix)) {
+  if (actualWord.startsWith(prefix) && actualWord.endsWith(suffix)) {
     const strippedWord = actualWord.slice(prefix.length, actualWord.length - suffix.length)
     return [`${startWord}${strippedWord}${endWord}`, false]
   }

@@ -15,11 +15,12 @@ type ToolbarProps = {
 }
 
 class Toolbar extends Component<ToolbarProps> {
-
   insertBold = () => {
-    const { value, onChange, getCaretPosition, setCaretPosition } = this.props
+    const {
+      value, onChange, getCaretPosition, setCaretPosition,
+    } = this.props
     const caretPosition = getCaretPosition()
-    const [ newValue, inserted ] = insertSymbol(value, caretPosition, [ '**', '**' ])
+    const [newValue, inserted] = insertSymbol(value, caretPosition, ['**', '**'])
     onChange({ target: { value: newValue } })
     setTimeout(() => {
       const newPosition = inserted ? caretPosition + 2 : caretPosition - 2
@@ -28,9 +29,11 @@ class Toolbar extends Component<ToolbarProps> {
   }
 
   insertItalics = () => {
-    const { value, onChange, getCaretPosition, setCaretPosition } = this.props
+    const {
+      value, onChange, getCaretPosition, setCaretPosition,
+    } = this.props
     const caretPosition = getCaretPosition()
-    const [ newValue, inserted ] = insertSymbol(value, caretPosition, [ '_', '_' ])
+    const [newValue, inserted] = insertSymbol(value, caretPosition, ['_', '_'])
     onChange({ target: { value: newValue } })
     setTimeout(() => {
       const newPosition = inserted ? caretPosition + 1 : caretPosition - 1
@@ -42,10 +45,10 @@ class Toolbar extends Component<ToolbarProps> {
     return (
       <div>
         <button onClick={this.insertBold} className={styles.button}>
-          <img src={bold} />
+          <img src={bold} alt="Bold" />
         </button>
         <button onClick={this.insertItalics} className={styles.button}>
-          <img src={italics} />
+          <img src={italics} alt="Italics" />
         </button>
       </div>
     )
