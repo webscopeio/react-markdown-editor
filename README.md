@@ -4,7 +4,7 @@
 
 [![CircleCI](https://circleci.com/gh/webscopeio/react-markdown-editor/tree/master.svg?style=svg)](https://circleci.com/gh/webscopeio/react-markdown-editor/tree/master)
 
-![alt text](https://raw.githubusercontent.com/@webscopeio/react-markdown-editor/master/static/demo.png)
+![alt text](https://raw.githubusercontent.com/webscopeio/react-markdown-editor/master/static/demo.gif)
 
 ## Install
 
