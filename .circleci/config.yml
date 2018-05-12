@@ -33,6 +33,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
   test:
+    steps:
       - run:
           - name Run tests
           - command yarn test
