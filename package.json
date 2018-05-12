@@ -26,9 +26,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@webscopeio/eslint-config": "1.0.2",
     "@webscopeio/react-textarea-autocomplete": "2.1.1",
-    "babel-polyfill": "6.26.0",
     "classnames": "2.2.5",
     "emojilib": "2.2.12",
     "github-markdown-css": "2.10.0",
@@ -41,6 +39,7 @@
     "react-dom": "^15.0.0 || ^16.0.0"
   },
   "devDependencies": {
+    "@webscopeio/eslint-config": "1.0.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
     "babel-plugin-external-helpers": "^6.22.0",
