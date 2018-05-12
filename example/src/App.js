@@ -1,12 +1,21 @@
 import React, { Component } from 'react'
 
-import ExampleComponent from 'react-markdown-editor'
+import ReactMarkdownEditor from 'react-markdown-editor'
 
 export default class App extends Component {
+  state = {
+    value: 'Hello world',
+  }
+
   render () {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <ReactMarkdownEditor
+          text='Modern React component module'
+          placeholder={'Write something ...'}
+          value={this.state.value}
+          onChange={({ target: { value } }) => this.setState({ value })}
+        />
       </div>
     )
   }

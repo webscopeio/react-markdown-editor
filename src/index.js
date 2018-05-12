@@ -15,6 +15,7 @@ export default class MarkdownEditor extends React.Component {
       <BaseMarkdownEditor
         preview={this.state.preview}
         onSetPreview={this.onSetPreview}
+        {...this.props}
       />
     )
   }

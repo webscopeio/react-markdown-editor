@@ -1,3 +1,4 @@
+// @flow
 import * as React from "react"
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete"
 import showdown from "showdown"
@@ -6,27 +7,42 @@ import './style.css'
 import styles from './BaseMarkdownEditor.module.css'
 import classNames from 'classnames'
 import GithubMarkdown from 'github-markdown-css'
+import AutocompleteItem from './AutocompleteItem'
+import Toolbar from './Toolbar'
 
+const Loading = () => <div>Loading</div>
 
-const Item = ({ entity: { char, keywords } }) => {
-  const [ firstKeyword ] = keywords
-  return (
-    <div style={{lineHeight: '14px', margin: 0, padding: 12, fontSize: 14, fontWeight: 'bold'}}>
-      <span style={{ padding: 5 }}>{char}</span>
-      <span style={{ padding: 5 }}>{firstKeyword}</span>
-    </div>
-  )
+type MarkdownEditorProps = {
+  placeholder?: string,
+  value: string,
+  noPreviewMessage?: string,
+  onChange: any,
+  textAreaProperties?: any, // TODO somehow import this from RTA?
+  previewClass: string,
+  preview: boolean,
+  classes: { [key: string]: string },
+  onSetPreview: ?boolean => void,
 }
-const Loading = ({ data }) => <div>Loading</div>
 
-const converter = new showdown.Converter()
 
-class MarkdownEditor extends React.Component {
+class MarkdownEditor extends React.Component<MarkdownEditorProps> {
+
+  // TODO - types
+  rtaRef: any = null
+  converter: any = null
+
+  static defaultProps = {
+    value: '',
+    classes: styles,
+    preview: false,
+    previewClass: GithubMarkdown[ 'markdown-body' ],
+    textAreaProperties: {},
+    noPreviewMessage: 'Nothing to preview',
+  }
+
   constructor() {
     super()
-    this.state = {
-      value: '',
-    }
+    this.converter = new showdown.Converter()
   }
 
   onSetPreviewFalse = () => {
@@ -37,81 +53,93 @@ class MarkdownEditor extends React.Component {
     this.props.onSetPreview(true)
   }
 
+  setCaretPosition = (position: number) => {
+    return this.rtaRef.setCaretPosition(position)
+  }
+
+  getCaretPosition = () : number => {
+    return this.rtaRef.getCaretPosition()
+  }
+
   render() {
     const {
       classes,
       preview,
       previewClass,
+      textAreaProperties,
+      noPreviewMessage,
+      value,
+      onChange,
     } = this.props
 
     return (
       <div className={styles.wrapper}>
-        <div>
-          <div className={classes.header}>
-            <nav>
-              <button
-                onClick={this.onSetPreviewFalse}
-                className={classNames(classes.navButton,
-                  { [ classes.selected ]: !preview })}
-              >Write
-              </button>
-              <button
-                onClick={this.onSetPreviewTrue}
-                className={classNames(classes.navButton,
-                  { [ classes.selected ]: !!preview })}
-              >Preview
-              </button>
-            </nav>
-          </div>
-          <div className={classes.content}>
-            {preview
-              ?
-              <div
-                className={classes.previewWrapper}
-              >
-                {!this.state.value.trim()
-                  ?
-                  <article>Nothing to preview</article>
-                  :
-                  <article
-                    className={previewClass}
-                    dangerouslySetInnerHTML={{ __html: converter.makeHtml(this.state.value) }}></article>
-                }
-              </div>
-              :
-                <ReactTextareaAutocomplete
-                  loadingComponent={Loading}
-                  className={styles.textarea}
-                  placeholder={'Write some markdown'}
-                  value={this.state.value}
-                  onChange={({ target: { value } }) => this.setState({ value })}
-                  trigger={{
-                    ":": {
-                      dataProvider: token => {
-                        return emoji(token)
-                          .slice(0, 10)
-                          .map(({ name, char, keywords }) => ({ name, char, keywords }))
-                      },
-                      component: Item,
-                      // TODO - after new version of RTA is deployed, caretPosition: next will be a default and
-                      // we can just return a string
-                      output: (item, trigger) => ({ text: item.char, caretPosition: 'next' }),
-                    }
+        <div className={classes.header}>
+          <nav>
+            <button
+              onClick={this.onSetPreviewFalse}
+              className={classNames(classes.navButton,
+                { [ classes.selected ]: !preview })}
+            >Write
+            </button>
+            <button
+              onClick={this.onSetPreviewTrue}
+              className={classNames(classes.navButton,
+                { [ classes.selected ]: !!preview })}
+            >Preview
+            </button>
+          </nav>
+          <Toolbar
+            getCaretPosition={this.getCaretPosition}
+            setCaretPosition={this.setCaretPosition}
+            value={value}
+            onChange={onChange}
+          />
+        </div>
+        <div className={classes.content}>
+          {preview
+            ?
+            <div
+              className={classes.previewWrapper}
+            >
+              {!this.props.value.trim()
+                ?
+                <article>{noPreviewMessage}</article>
+                :
+                <article
+                  className={previewClass}
+                  dangerouslySetInnerHTML={{
+                    __html: this.converter.makeHtml(this.props.value)
                   }}
-                />
+                ></article>
               }
-          </div>
-
+            </div>
+            :
+            <ReactTextareaAutocomplete
+              loadingComponent={Loading}
+              className={styles.textarea}
+              ref={ref => this.rtaRef = ref}
+              trigger={{
+                ":": {
+                  dataProvider: token => {
+                    return emoji(token)
+                      .slice(0, 10)
+                      .map(({ name, char, keywords }) => ({ name, char, keywords }))
+                  },
+                  component: AutocompleteItem,
+                  output: item => ({ text: item.char, caretPosition: 'next' }),
+                }
+              }}
+              {...textAreaProperties}
+              placeholder={this.props.placeholder}
+              value={this.props.value}
+              onChange={this.props.onChange}
+            />
+          }
         </div>
       </div>
     )
   }
-}
-
-MarkdownEditor.defaultProps = {
-  classes: styles,
-  preview: false,
-  previewClass: GithubMarkdown[ 'markdown-body' ],
 }
 
 export default MarkdownEditor
