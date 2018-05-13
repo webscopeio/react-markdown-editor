@@ -44,4 +44,4 @@ export default class App extends Component {
 
 ## License
 
-MIT © [Webscope.io](https://github.com/Webscope.io)
+MIT © [webscope.io](https://github.com/webscopeio)
