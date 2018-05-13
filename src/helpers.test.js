@@ -23,6 +23,17 @@ describe('Markdown helpers', () => {
 })
 
 describe('Markdown replace functions', () => {
+  it('put symbols in the end if cursor is at the end', () => {
+    const text = 'Hello world'
+    expect(insertSymbol(text, 11, ['**', '**']))
+      .toEqual(['Hello world****', true])
+  })
+
+  it('put symbols in the end if cursor is at the end', () => {
+    const text = 'Hello Webscope'
+    expect(insertSymbol(text, 14, ['_', '_'])).toEqual(['Hello Webscope__', true])
+  })
+
   it('wraps selected text with symbols', () => {
     const text = 'Hello world! I hope you like this plugin!'
     expect(wrapSelectedRangeWithSymbols(text, { start: 2, end: 14 }, { prefix: '**', suffix: '**' }))
@@ -52,7 +63,7 @@ describe('Markdown replace functions', () => {
 
   it('insert italics symbol in the second word', () => {
     const text = 'Hello Webscope'
-    expect(insertSymbol(text, 14, ['_', '_'])).toEqual(['Hello _Webscope_', true])
+    expect(insertSymbol(text, 13, ['_', '_'])).toEqual(['Hello _Webscope_', true])
   })
 
   it('multiline comment - cursor is in an empty line', () => {

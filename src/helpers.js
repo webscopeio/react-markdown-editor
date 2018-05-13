@@ -47,8 +47,14 @@ export const insertSymbol = (text: string, position: number, [prefix, suffix]: A
   const currentLine = text.substring(0, position).split('\n').length - 1
 
   const relativeLinePosition: number = position - lineLengths.slice(0, currentLine).reduce(sum, 0)
+
   const [newLine, replaced] =
-    insertSymbolInWord(lines[currentLine], relativeLinePosition, [prefix, suffix])
+    // if cursor is in the absolute end, we don't wrap the current word
+    text.length === position
+      ?
+      [`${lines[currentLine]}${prefix}${suffix}`, true]
+      :
+      insertSymbolInWord(lines[currentLine], relativeLinePosition, [prefix, suffix])
 
   lines[currentLine] = newLine
   return [lines.join('\n'), replaced]
