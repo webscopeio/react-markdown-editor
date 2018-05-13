@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+
+    working_directory: ~/react-markdown-editor
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: yarn install
+
+      - run:
+          name: Run Tests
+          command: yarn test
+
+      - run:
+          name: Run ESLint
+          command: yarn lint
+
+      - run:
+          name: Run Flow
+          command: yarn flow:check
+
+#      Not yet :/
+#      - run:
+#          name: Run Cypress
+#          command: yarn cypress
+#
