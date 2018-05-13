@@ -6,9 +6,6 @@
 
 ![demo](https://user-images.githubusercontent.com/1083817/39962530-ba6b3040-5651-11e8-8279-b7ec74b56ca5.gif)
 
-## Warning
-This is a work in progress. It's not well tested yet, please do not use this in production yet.
-
 ## Demo
 https://webscope-react-markdown-editor.firebaseapp.com/
 
