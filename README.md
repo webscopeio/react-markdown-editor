@@ -88,5 +88,5 @@ The most important parts are:
 
 ## License
 
-MIT © [webscope.io](https://github.com/webscopeio)
+MIT
 
