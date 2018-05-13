@@ -98,9 +98,9 @@
   dependencies:
     eslint-config-airbnb "^16.1.0"
 
-"@webscopeio/react-textarea-autocomplete@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@webscopeio/react-textarea-autocomplete/-/react-textarea-autocomplete-2.1.1.tgz#8fa251827f4c50a1ddc28893b8eda706ca06b354"
+"@webscopeio/react-textarea-autocomplete@2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@webscopeio/react-textarea-autocomplete/-/react-textarea-autocomplete-2.2.0.tgz#793c5ffd659369d887f143547845ce40eedb0bee"
   dependencies:
     textarea-caret "3.0.2"
 

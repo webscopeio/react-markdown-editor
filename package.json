@@ -26,7 +26,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@webscopeio/react-textarea-autocomplete": "2.1.1",
+    "@webscopeio/react-textarea-autocomplete": "2.2.0",
     "classnames": "2.2.5",
     "emojilib": "2.2.12",
     "github-markdown-css": "2.10.0",

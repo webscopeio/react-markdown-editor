@@ -59,7 +59,7 @@ export const insertSymbol = (text: string, position: number, [prefix, suffix]: A
  * provided symbols.
  */
 export const wrapSelectedRangeWithSymbols =
-  (text: string, range: Range, action: MarkdownAction): string => {
+  (text: string, range: Range, action: MarkdownAction): [string, boolean] => {
     const { start, end } = range
     const { prefix, suffix } = action
 
@@ -67,5 +67,11 @@ export const wrapSelectedRangeWithSymbols =
     const actualWord = text.slice(start, end)
     const endWord = text.slice(end, text.length)
 
-    return `${startWord}${prefix}${actualWord}${suffix}${endWord}`
+    if (startWord.endsWith(prefix) && endWord.startsWith(suffix)) {
+      const strippedStartWord = startWord.slice(0, startWord.length - prefix.length)
+      const strippedEndWord = endWord.slice(2)
+      return [`${strippedStartWord}${actualWord}${strippedEndWord}`, false]
+    }
+
+    return [`${startWord}${prefix}${actualWord}${suffix}${endWord}`, true]
   }

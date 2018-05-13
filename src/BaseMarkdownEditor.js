@@ -11,6 +11,8 @@ import GithubMarkdown from 'github-markdown-css'
 import AutocompleteItem from './AutocompleteItem'
 import Toolbar from './Toolbar'
 
+import type { Range } from './types'
+
 const Loading = () => <div>Loading</div>
 
 type MarkdownEditorProps = {
@@ -49,9 +51,20 @@ class MarkdownEditor extends React.Component<MarkdownEditorProps> {
     this.props.onSetPreview(true)
   }
 
-  setCaretPosition = (position: number) => this.rtaRef.setCaretPosition(position)
+  setSelectionRange = (range: Range) : void => {
+    this.rtaRef.textareaRef.setSelectionRange(range.start, range.end)
+    this.rtaRef.textareaRef.focus()
+  }
 
-  getCaretPosition = (): number => this.rtaRef.getCaretPosition()
+  getSelectedRange = () : Range => {
+    const { selectionStart, selectionEnd } = this.rtaRef.getSelectionPosition()
+    return {
+      start: selectionStart,
+      end: selectionEnd,
+    }
+  }
+
+  setCaretPosition = (position: number) => this.rtaRef.setCaretPosition(position)
 
   // TODO - types
   rtaRef: any = null
@@ -86,7 +99,8 @@ class MarkdownEditor extends React.Component<MarkdownEditorProps> {
             </button>
           </nav>
           <Toolbar
-            getCaretPosition={this.getCaretPosition}
+            setSelectionRange={this.setSelectionRange}
+            getSelectedRange={this.getSelectedRange}
             setCaretPosition={this.setCaretPosition}
             value={value}
             onChange={onChange}
