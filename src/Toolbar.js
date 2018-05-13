@@ -18,8 +18,6 @@ type ToolbarProps = {
 
 class Toolbar extends Component<ToolbarProps> {
   insertSymbols = (action: MarkdownAction) => {
-    const { prefix, suffix } = action
-
     const {
       value,
       onChange,
@@ -33,18 +31,19 @@ class Toolbar extends Component<ToolbarProps> {
 
     if (start === end) {
       const caretPosition = start
-      const [newValue, inserted] = insertSymbol(value, caretPosition, [prefix, suffix])
+      const { text: newValue, added } = insertSymbol(value, caretPosition, action)
       onChange({ target: { value: newValue } })
       setTimeout(() => {
-        const newPosition = inserted ? caretPosition + 2 : caretPosition - 2
+        const newPosition =
+          added ? caretPosition + action.prefix.length : caretPosition - action.prefix.length
         setCaretPosition(newPosition)
       })
     } else {
-      const [newValue, inserted] = wrapSelectedRangeWithSymbols(value, range, { prefix, suffix })
+      const { text: newValue, added } = wrapSelectedRangeWithSymbols(value, range, action)
       onChange({ target: { value: newValue } })
       setTimeout(() => {
-        const newStart = inserted ? start + 2 : start - 2
-        const newEnd = inserted ? end + 2 : end - 2
+        const newStart = added ? start + action.prefix.length : start - action.prefix.length
+        const newEnd = added ? end + action.prefix.length : end - action.prefix.length
         setSelectionRange({ start: newStart, end: newEnd })
       })
     }
