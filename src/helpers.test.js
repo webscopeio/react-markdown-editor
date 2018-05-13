@@ -1,4 +1,10 @@
-import { getWordStartAndEndLocation, insertSymbol } from './helpers'
+// @flow
+// TMP solution, install flow-typed - jest
+declare var expect: any
+declare var it: any
+declare var describe: any
+
+import { getWordStartAndEndLocation, insertSymbol, wrapSelectedRangeWithSymbols } from './helpers'
 
 describe('Markdown helpers', () => {
   it('get current world start & stop positions', () => {
@@ -17,6 +23,18 @@ describe('Markdown helpers', () => {
 })
 
 describe('Markdown replace functions', () => {
+  it('wraps selected text with symbols', () => {
+    const text = 'Hello world! I hope you like this plugin!'
+    expect(wrapSelectedRangeWithSymbols(text, { start: 2, end: 14 }, { prefix: '**', suffix: '**' }))
+      .toEqual(['He**llo world! I** hope you like this plugin!', true])
+  })
+
+  it('unwraps selected text with symbols', () => {
+    const text = 'He**llo world! I** hope you like this plugin!'
+    expect(wrapSelectedRangeWithSymbols(text, { start: 4, end: 16 }, { prefix: '**', suffix: '**' }))
+      .toEqual(['Hello world! I hope you like this plugin!', false])
+  })
+
   it('inserts symbol helper', () => {
     const text = 'Hello world'
     expect(insertSymbol(text, 1, ['**', '**'])).toEqual(['**Hello** world', true])

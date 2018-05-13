@@ -1,4 +1,5 @@
 // @flow
+import type { MarkdownAction, Range } from './types'
 
 const isEmptyAtPosition = (word: string, position: number) => word[position] === ' '
 
@@ -21,6 +22,7 @@ export const getWordStartAndEndLocation = (word: string, position: number) => {
 
 const insertSymbolInWord = (word: string, position: number, [prefix, suffix]: Array<string>) => {
   const [start, end] = getWordStartAndEndLocation(word, position)
+
   const startWord = word.slice(0, start)
   const actualWord = word.slice(start, end)
   const endWord = word.slice(end, word.length)
@@ -52,3 +54,24 @@ export const insertSymbol = (text: string, position: number, [prefix, suffix]: A
   return [lines.join('\n'), replaced]
 }
 
+/**
+ * Given a text and selected range, following function wraps this text with
+ * provided symbols.
+ */
+export const wrapSelectedRangeWithSymbols =
+  (text: string, range: Range, action: MarkdownAction): [string, boolean] => {
+    const { start, end } = range
+    const { prefix, suffix } = action
+
+    const startWord = text.slice(0, start)
+    const actualWord = text.slice(start, end)
+    const endWord = text.slice(end, text.length)
+
+    if (startWord.endsWith(prefix) && endWord.startsWith(suffix)) {
+      const strippedStartWord = startWord.slice(0, startWord.length - prefix.length)
+      const strippedEndWord = endWord.slice(2)
+      return [`${strippedStartWord}${actualWord}${strippedEndWord}`, false]
+    }
+
+    return [`${startWord}${prefix}${actualWord}${suffix}${endWord}`, true]
+  }
