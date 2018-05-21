@@ -27,7 +27,6 @@ type MarkdownEditorProps = {
   onSetPreview: ?boolean => void,
 }
 
-
 class MarkdownEditor extends React.Component<MarkdownEditorProps> {
   static defaultProps = {
     value: '',
@@ -136,6 +135,7 @@ class MarkdownEditor extends React.Component<MarkdownEditorProps> {
                 ':': {
                   dataProvider: token => emoji(token)
                     .slice(0, 10)
+                    .filter(({char}) => char !== null)
                     .map(({ name, char, keywords }) => ({ name, char, keywords })),
                   component: AutocompleteItem,
                   output: item => ({ text: item.char, caretPosition: 'next' }),
